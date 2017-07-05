@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GetData } from '../../share/data';
 
 declare var tickp: any;
 declare var moment: any;
@@ -14,7 +15,7 @@ export class ChartComponent implements OnInit {
   theme: any;
 
 
-  constructor() {
+  constructor(private data: GetData) {
     this.theme = {
                 background: '#111216',
                 label: '#EEEEEE',
@@ -46,7 +47,9 @@ export class ChartComponent implements OnInit {
                 maxYlines: 10,
                 maxIndicators: 10
             }
-    };
+    
+  
+  };
 
   ngOnInit() {
     const chartEl = document.getElementsByClassName('chart')[0];
@@ -54,11 +57,24 @@ export class ChartComponent implements OnInit {
     // const chartHeight = chartEl.clientHeigh;
     const chartWidth = 800;
     const chartHeight = 600;
+    const data = this.data.getData();
+    const self = this;
     this.chart = tickp(chartEl, {theme: this.theme, moment: moment});
     // this.chart = tickp(chartEl, {theme: chartThemes.dark, moment: moment});
     // console.log(this.chart);
+    set_textRenderContext(this.chart.ctx);
+    this.chart.initDataGraph([], function (d, e) {
+                alert(e);
+            }, []);
     this.chart.setSize(chartWidth, chartHeight);
-    
+    data.forEach(point => {
+      this.chart.addCandleWithoutPlot(point[0], point[1], point[2], point[3], point[4]);
+    });
+    this.chart.showVolumeChart(false);
+    this.chart.setCandleBorder('#999999', 0);
+
+
+    console.log(this.chart);
   }
 
 }

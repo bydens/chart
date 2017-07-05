@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { ChartComponent } from './components/chart/chart.component';
+import { GetData } from './share/data';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,7 @@ import { ChartComponent } from './components/chart/chart.component';
   imports: [
     BrowserModule
   ],
-  providers: [],
+  providers: [GetData],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
